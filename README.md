@@ -6,5 +6,6 @@ You can control these ACL using python (see : [script](https://github.com/boubak
 
 ## Test
 Run the command bellow:
-
-python s3_public_access_control.py
+```
+python3 s3_public_access_control.py
+```
