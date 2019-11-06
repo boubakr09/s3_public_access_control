@@ -6,6 +6,9 @@ You can control these ACL using python (see : [script](https://github.com/boubak
 
 ## Test
 Run the command bellow:
+
 ```
 python3 s3_public_access_control.py
 ```
+
+PS: Assign value to the variable 'endpoint' into this [file](https://github.com/boubakr09/s3_public_access_control/blob/master/s3_public_access_control.py) before running this script. The value must be an email address to which a notification should be send.
