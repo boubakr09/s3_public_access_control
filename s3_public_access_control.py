@@ -6,7 +6,7 @@ s3 = boto3.client('s3')
 sns = boto3.client('sns')
 
 #email address of the subscriber
-endpoint = 'boubacar.barry@d2si.io'
+endpoint = 'email_address_of_subscriber'
 
 #Create an sns topic
 response = sns.create_topic(Name='s3_public_access_control')
