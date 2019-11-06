@@ -38,13 +38,26 @@ for bucket in response3['Buckets']:
     response4 = s3.get_bucket_acl(Bucket=bucket_name)
     #a loop to browse those permission
     for permission in response4['Grants']:
-        #verify if the permission is public
-        if (permission['Grantee']['Type']) == 'Group' and (permission['Permission']) == 'READ':
-            #save the bucket name that has public access in variable 'message'
-            message = ('Public access on '+bucket_name+' bucket')
-            #publish a message send via email to subscribers
-            response5 = sns.publish(
-                TopicArn = topicarn,
-                Message = message,
-                Subject = 's3 Public Access Control',
-            )
+        #verify if the permission is public (READ or WRITE)
+        if (permission['Grantee']['Type']) == 'Group':
+            if (permission['Permission']) == 'READ' or (permission['Permission']) == 'WRITE':
+                #save the buckets names which has public access
+                bucket_with_public_access = (bucket['Name'])
+                #remove the public access permission on the given bucket
+                s3.put_public_access_block(
+                    Bucket=bucket_with_public_access,
+                    PublicAccessBlockConfiguration={
+                        'BlockPublicAcls': True,
+                        'IgnorePublicAcls': True,
+                        'BlockPublicPolicy': True,
+                        'RestrictPublicBuckets': True
+                    }
+                )
+                #save the bucket name that has public access in variable 'message'
+                message = ('Public access on '+bucket_with_public_access+' bucket')
+                #publish a message send via email to subscribers
+                response5 = sns.publish(
+                    TopicArn = topicarn,
+                    Message = message,
+                    Subject = 's3 Public Access Control',
+                    )
