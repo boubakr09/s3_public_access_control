@@ -13,13 +13,13 @@ response = sns.create_topic(Name='s3_public_access_control')
 #save the topic arn in the variable 'topicarn'
 topicarn = (response['TopicArn'])
 
-#list the subscribers of the topic
+#get the subscribers of the topic
 response6 = sns.list_subscriptions_by_topic(
     TopicArn=topicarn
     )
 
 #verify if the given endpoint already subscribe to the topic
-if (response6['Subscriptions'][0]['Endpoint']) == endpoint:
+if (response6['Subscriptions']) == '[]' or (response6['Subscriptions'][0]['Endpoint']) == endpoint::
     #if so, do nothing
     pass
 #if not proceed to subscription
